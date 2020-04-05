@@ -24,3 +24,18 @@ yarn cli connect retro
 // build code for "alpha" device & send it to the device
 yarn cli send alpha
 ```
+
+### Roadmap/TODO
+
+#### Alpha
+ * Improve Memory LCD write speeds in `MemoryLCD` module
+    
+#### Retro
+ * Split `espruino-dl2416` off into own repo as submodule/dependency
+ * Improve time/date display code
+ * Add buttons
+ * Design case w/ buttons
+ * Measure battery voltage?
+    
+#### DL2416 library
+ * Improve scrolling behavior - add `endDelay`
