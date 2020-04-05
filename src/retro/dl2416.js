@@ -55,6 +55,9 @@ function DL2416(P_D0, P_D1, P_D2, P_D3, P_D4, P_D5, P_D6, P_BL, P_Ad0, P_Ad1, P_
     // According to datasheet, should wait 1us after setting CLR to low, but the Espruino interpreter is slow enough :)
     digitalWrite(P_CLR, 0);
     digitalWrite(P_CLR, 1);
+    // stop scrolling and/or flashing
+    stopInterval(scrollInterval);
+    stopInterval(flashInterval);
   }
 
   // Turn display on, showing whatever is in memory
@@ -122,24 +125,18 @@ function DL2416(P_D0, P_D1, P_D2, P_D3, P_D4, P_D5, P_D6, P_BL, P_Ad0, P_Ad1, P_
     }
     // start scrolling message
     scrollInterval = setInterval(() => _updateScroll(), delay);
+    // todo - endDelay param - should wait longer at end of message before replaying
   }
   function _updateScroll() {
     const msgPart = msg.substr(scrollIndex, 4);
     const endIndex = Math.max(0, msg.length - 3);
     scrollIndex = (scrollIndex + 1) % endIndex;
     write(msgPart);
-    console.log('updatescroll', new Date().getTime());
   }
+  // remove any existing scroll interval timer, if present
   function stopScroll() {
     stopInterval(scrollInterval);
   }
-  // remove any existing scroll interval timer, if present
-  function clearScrollInterval() {
-    if (typeof scrollInterval !== "undefined") clearInterval(scrollInterval);
-  }
-
-
-
 
   // Set a cursor at the given digit
   function setCursor(digit, unset) {
@@ -166,7 +163,6 @@ function DL2416(P_D0, P_D1, P_D2, P_D3, P_D4, P_D5, P_D6, P_BL, P_Ad0, P_Ad1, P_
       flashInterval = setInterval(() => {
         digitalWrite(P_CUE, cursorEnabled);
         cursorEnabled = !cursorEnabled;
-        console.log('flash', Number(new Date().getTime()));
       }, flashTime);
     }
   }
@@ -177,8 +173,6 @@ function DL2416(P_D0, P_D1, P_D2, P_D3, P_D4, P_D5, P_D6, P_BL, P_Ad0, P_Ad1, P_
   function stopInterval(interval) {
     if (typeof interval !== "undefined") clearInterval(interval);
   }
-
-
 
   return {
     writeChar: writeChar,

@@ -39,7 +39,7 @@ function getBundlePath(deviceName, revision) {
 
 function build(deviceName, revision) {
   // look for a Rollup config file for this device
-  const rollupConfigPath = `${__dirname}/../config/${deviceName}.rollup.config.js`;
+  const rollupConfigPath = `${__dirname}/../config/rollup.config.js`;
 
   if (!fs.existsSync(rollupConfigPath)) {
     console.error(`No rollup config for ${deviceName} found at ${rollupConfigPath}`);
