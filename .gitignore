@@ -1,0 +1,13 @@
+# System.
+.DS_Store
+Thumbs.db
+
+# Directories.
+node_modules
+.idea
+
+# TSC incremental buildinfo files
+*.tsbuildinfo
+
+# secrets
+config/secrets.config.js
